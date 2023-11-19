@@ -6,6 +6,7 @@ require_relative 'src/init.rb'
 require_relative 'src/hash-object.rb'
 require_relative 'src/update-index.rb'
 require_relative 'src/write-tree.rb'
+require_relative 'src/commit-tree.rb'
 
 options = {}
 
@@ -36,6 +37,12 @@ subcommands = {
   end,
   'write-tree' => OptionParser.new do |opts|
     opts.banner = "Usage: write-tree"
+  end,
+  'commit-tree' => OptionParser.new do |opts|
+    opts.banner = "Usage: commit-tree"
+    opts.on("-pPARENT", "--parent=PARENT") do |p|
+      options[:parent] = p
+    end
   end
 }
 global.order!
@@ -60,6 +67,9 @@ else
     update_index(conn, options[:cacheinfo], *ARGV)
   when "write-tree"
     write_tree(conn)
+  when "commit-tree"
+    tree_id = ARGV.shift
+    commit_tree(conn, options[:parent], tree_id, "Richard Towers", ARGF.read)
   else
     puts help
   end
