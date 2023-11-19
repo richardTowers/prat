@@ -5,6 +5,7 @@ require 'optparse'
 require_relative 'src/init.rb'
 require_relative 'src/hash-object.rb'
 require_relative 'src/update-index.rb'
+require_relative 'src/write-tree.rb'
 
 options = {}
 
@@ -32,6 +33,9 @@ subcommands = {
     opts.on("-cCACHEINFO", "--cacheinfo=CACHEINFO") do |c|
       options[:cacheinfo] = c
     end
+  end,
+  'write-tree' => OptionParser.new do |opts|
+    opts.banner = "Usage: write-tree"
   end
 }
 global.order!
@@ -54,6 +58,8 @@ else
     puts hash_object(ARGF.read, conn)
   when "update-index"
     update_index(conn, options[:cacheinfo], *ARGV)
+  when "write-tree"
+    write_tree(conn)
   else
     puts help
   end
