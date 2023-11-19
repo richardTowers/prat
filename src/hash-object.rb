@@ -1,8 +1,12 @@
 require 'digest/sha1'
 
-def hash_object(content)
+def hash_object(content, conn)
   # https://git-scm.com/book/en/v2/Git-Internals-Git-Objects#_object_storage
   header = "blob #{content.bytesize}\0"
   store = header + content
-  Digest::SHA1.hexdigest(store)
+  hash = Digest::SHA1.hexdigest(store)
+
+  conn.exec_params("insert into objects (id, value) values ($1, $2)", [hash, content])
+
+  hash
 end

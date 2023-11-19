@@ -1,9 +1,4 @@
-require 'pg'
-
-def init
-  # TODO - make it so there can be more than one prat repository per postgres instance
-  # TODO - allow database credentials
-  conn = PG.connect( dbname: 'prat' )
+def init(conn)
   create_tables(conn)
 end
 

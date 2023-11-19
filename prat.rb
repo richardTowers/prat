@@ -1,5 +1,6 @@
 #!/usr/bin/env ruby
 
+require 'pg'
 require 'optparse'
 require_relative 'src/init.rb'
 require_relative 'src/hash-object.rb'
@@ -31,11 +32,16 @@ if command.nil?
   puts help
 else
   subcommands[command]&.order!
+
+  # TODO - make it so there can be more than one prat repository per postgres instance
+  # TODO - allow database credentials
+  conn = PG.connect( dbname: 'prat' )
+
   case command
   when "init"
-    init
+    init(conn)
   when "hash-object"
-    puts hash_object(ARGF.read)
+    puts hash_object(ARGF.read, conn)
   else
     puts help
   end
