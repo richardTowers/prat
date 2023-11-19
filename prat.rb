@@ -7,6 +7,7 @@ require_relative 'src/hash-object.rb'
 require_relative 'src/update-index.rb'
 require_relative 'src/write-tree.rb'
 require_relative 'src/commit-tree.rb'
+require_relative 'src/update-ref.rb'
 
 options = {}
 
@@ -43,7 +44,10 @@ subcommands = {
     opts.on("-pPARENT", "--parent=PARENT") do |p|
       options[:parent] = p
     end
-  end
+  end,
+  'update-ref' => OptionParser.new do |opts|
+    opts.banner = "Usage: update-ref name commit_id"
+  end,
 }
 global.order!
 command = ARGV.shift
@@ -70,6 +74,10 @@ else
   when "commit-tree"
     tree_id = ARGV.shift
     commit_tree(conn, options[:parent], tree_id, "Richard Towers", ARGF.read)
+  when "update-ref"
+    name = ARGV.shift
+    commit_id = ARGV.shift
+    update_ref(conn, name, commit_id)
   else
     puts help
   end
