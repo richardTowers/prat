@@ -17,4 +17,6 @@ def commit_tree(conn, parent_id, tree_id, author, message)
     "insert into commits (id, parent_id, tree_id, author, message) values ($1, $2, $3, $4, $5)",
     [id, parent_id, tree_id, author, message]
   )
+
+  id
 end

@@ -74,10 +74,10 @@ else
   when "update-index"
     update_index(conn, options[:cacheinfo], *ARGV)
   when "write-tree"
-    write_tree(conn)
+    puts write_tree(conn)
   when "commit-tree"
     tree_id = ARGV.shift
-    commit_tree(conn, options[:parent], tree_id, "Richard Towers", ARGF.read)
+    puts commit_tree(conn, options[:parent], tree_id, "Richard Towers", ARGF.read)
   when "update-ref"
     name = ARGV.shift
     commit_id = ARGV.shift

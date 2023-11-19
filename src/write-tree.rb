@@ -16,6 +16,7 @@ def write_tree(conn)
     SQL
     conn.exec_params sql, [id]
     conn.exec "delete from index"
+    id
   end
 end
 
