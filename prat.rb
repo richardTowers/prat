@@ -2,6 +2,7 @@
 
 require 'optparse'
 require_relative 'src/init.rb'
+require_relative 'src/hash-object.rb'
 
 options = {}
 
@@ -17,6 +18,9 @@ end
 subcommands = {
   'init' => OptionParser.new do |opts|
     opts.banner = "Usage: init"
+  end,
+  'hash-object' => OptionParser.new do |opts|
+    opts.banner = "Usage: hash-object [file]"
   end
 }
 global.order!
@@ -30,6 +34,8 @@ else
   case command
   when "init"
     init
+  when "hash-object"
+    puts hash_object(ARGF.read)
   else
     puts help
   end
