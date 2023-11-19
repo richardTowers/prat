@@ -15,7 +15,7 @@ def log(conn, ref)
   res = conn.exec_params(sql, [ref])
   res.each_row do |row|
     puts <<~COMMIT
-    \x1b\x5b\x33\x33\x6dcommit #{row[0]}\x1b\x5b\x6d
+    \x1b[33mcommit #{row[0]}\x1b[m
     Author: #{row[2]}
 
     #{row[3].split("\n").map{|line| line.prepend("    ")}.join("\n") }

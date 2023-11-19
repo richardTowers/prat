@@ -83,7 +83,7 @@ else
     commit_id = ARGV.shift
     update_ref(conn, name, commit_id)
   when "log"
-    refname = ARGV.shift
+    refname = ARGV.shift || "main"
     log(conn, refname)
   else
     puts help
