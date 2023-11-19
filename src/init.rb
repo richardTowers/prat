@@ -4,6 +4,7 @@ end
 
 def create_tables(conn)
   create_objects(conn)
+  create_index(conn)
   create_trees(conn)
   create_commits(conn)
   create_refs(conn)
@@ -11,6 +12,10 @@ end
 
 def create_objects(conn)
   conn.exec( "create table if not exists objects (id text, value text)")
+end
+
+def create_index(conn)
+  conn.exec( "create table if not exists index (mode text, type text, object_id text, filename text)")
 end
 
 def create_trees(conn)

@@ -4,6 +4,7 @@ require 'pg'
 require 'optparse'
 require_relative 'src/init.rb'
 require_relative 'src/hash-object.rb'
+require_relative 'src/update-index.rb'
 
 options = {}
 
@@ -22,6 +23,15 @@ subcommands = {
   end,
   'hash-object' => OptionParser.new do |opts|
     opts.banner = "Usage: hash-object [file]"
+  end,
+  'update-index' => OptionParser.new do |opts|
+    opts.banner = "Usage: update-index --add --cacheinfo mode object_id filename"
+    opts.on("-a", "--add") do |a|
+      options[:add] = a
+    end
+    opts.on("-cCACHEINFO", "--cacheinfo=CACHEINFO") do |c|
+      options[:cacheinfo] = c
+    end
   end
 }
 global.order!
@@ -42,6 +52,8 @@ else
     init(conn)
   when "hash-object"
     puts hash_object(ARGF.read, conn)
+  when "update-index"
+    update_index(conn, options[:cacheinfo], *ARGV)
   else
     puts help
   end
