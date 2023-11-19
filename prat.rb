@@ -8,6 +8,7 @@ require_relative 'src/update-index.rb'
 require_relative 'src/write-tree.rb'
 require_relative 'src/commit-tree.rb'
 require_relative 'src/update-ref.rb'
+require_relative 'src/log.rb'
 
 options = {}
 
@@ -48,6 +49,9 @@ subcommands = {
   'update-ref' => OptionParser.new do |opts|
     opts.banner = "Usage: update-ref name commit_id"
   end,
+  'log' => OptionParser.new do |opts|
+    opts.banner = "Usage: log refname"
+  end,
 }
 global.order!
 command = ARGV.shift
@@ -78,6 +82,9 @@ else
     name = ARGV.shift
     commit_id = ARGV.shift
     update_ref(conn, name, commit_id)
+  when "log"
+    refname = ARGV.shift
+    log(conn, refname)
   else
     puts help
   end
